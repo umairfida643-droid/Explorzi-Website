@@ -95,41 +95,8 @@ function initNavbar() {
    3. Ultra-Smooth 3D Parallax & Tilt Cards
    ========================================================================== */
 function init3DParallaxCards() {
-  const cards = document.querySelectorAll('.card-3d, .hero-showcase-card');
-  
-  cards.forEach(card => {
-    if (!card.querySelector('.card-glare')) {
-      const glare = document.createElement('div');
-      glare.className = 'card-glare';
-      card.appendChild(glare);
-    }
-
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      
-      // Calculate rotation (-8deg to +8deg)
-      const rotateX = ((y - centerY) / centerY) * -8;
-      const rotateY = ((x - centerX) / centerX) * 8;
-      
-      const percentX = (x / rect.width) * 100;
-      const percentY = (y / rect.height) * 100;
-      card.style.setProperty('--mouse-x', `${percentX}%`);
-      card.style.setProperty('--mouse-y', `${percentY}%`);
-      
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-      card.style.setProperty('--mouse-x', `50%`);
-      card.style.setProperty('--mouse-y', `50%`);
-    });
-  });
+  // Pure CSS luxury light sweep reflection used across cards.
+  // JS card movement/tilt disabled to ensure rock-solid stability and zero flickering.
 }
 
 /* ==========================================================================
