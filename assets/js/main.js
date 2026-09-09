@@ -19,20 +19,23 @@ document.addEventListener('DOMContentLoaded', () => {
    1. Theme Management (Light & Dark Mode)
    ========================================================================== */
 function initTheme() {
-  const savedTheme = localStorage.getItem('explorzi-theme');
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  
-  // Default to dark theme for maximum luxury aesthetic
-  const initialTheme = savedTheme || (prefersDark ? 'dark' : 'dark');
-  setTheme(initialTheme);
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+  updateThemeIcons(currentTheme);
 
   const toggleBtns = document.querySelectorAll('.theme-toggle-btn');
   toggleBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme') || 'dark';
       const next = current === 'dark' ? 'light' : 'dark';
+      
+      // Temporarily enable theme transition for smooth manual switch
+      document.documentElement.classList.add('theme-in-transition');
       setTheme(next);
       showToast(`Switched to ${next.toUpperCase()} mode`);
+      
+      setTimeout(() => {
+        document.documentElement.classList.remove('theme-in-transition');
+      }, 400);
     });
   });
 }
@@ -95,8 +98,17 @@ function initNavbar() {
    3. Ultra-Smooth 3D Parallax & Tilt Cards
    ========================================================================== */
 function init3DParallaxCards() {
-  // Pure CSS luxury light sweep reflection used across cards.
-  // JS card movement/tilt disabled to ensure rock-solid stability and zero flickering.
+  // Interactive glass glare tracking (Card stays 100% stationary, zero jitter/flicker)
+  const cards = document.querySelectorAll('.card-3d, .hero-showcase-card, .feature-card, .testimonial-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
+  });
 }
 
 /* ==========================================================================

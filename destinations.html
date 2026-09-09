@@ -2,6 +2,17 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('explorzi-theme');
+        var theme = saved ? saved : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Destinations Atlas - Explorzi.pk | TRAVEL with AM</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -95,6 +106,7 @@
       <!-- Destination 1: Skardu -->
       <div class="card-3d-wrapper">
         <div class="card-3d" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+            <div class="card-glare"></div>
           <div style="height: 100%; min-height: 300px;">
             <img src="assets/images/destinations/skardu-shangrila.jpg" alt="Authentic Shangrila Resort Skardu" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
@@ -124,6 +136,7 @@
       <!-- Destination 2: Hunza Valley -->
       <div class="card-3d-wrapper">
         <div class="card-3d" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+            <div class="card-glare"></div>
           <div style="height: 100%; min-height: 300px;">
             <img src="assets/images/destinations/hunza-passu.jpg" alt="Authentic Passu Cones Hunza" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
@@ -153,6 +166,7 @@
       <!-- Destination 3: Neelum Valley Kashmir -->
       <div class="card-3d-wrapper">
         <div class="card-3d" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+            <div class="card-glare"></div>
           <div style="height: 100%; min-height: 300px;">
             <img src="assets/images/destinations/arang-kel.jpg" alt="Authentic Arang Kel Village Neelum Kashmir" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
@@ -181,6 +195,7 @@
       <!-- Destination 4: Swat & Kalam Valley -->
       <div class="card-3d-wrapper">
         <div class="card-3d" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+            <div class="card-glare"></div>
           <div style="height: 100%; min-height: 300px;">
             <img src="assets/images/destinations/swat-kalam.jpg" alt="Authentic Kalam Swat Valley" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
@@ -210,6 +225,7 @@
       <!-- Destination 5: Fairy Meadows & Nanga Parbat -->
       <div class="card-3d-wrapper">
         <div class="card-3d" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+            <div class="card-glare"></div>
           <div style="height: 100%; min-height: 300px;">
             <img src="assets/images/destinations/fairy-meadows.jpg" alt="Authentic Nanga Parbat Killer Mountain" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
@@ -239,6 +255,7 @@
       <!-- Destination 6: Naran & Lake Saif-ul-Malook -->
       <div class="card-3d-wrapper">
         <div class="card-3d" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+            <div class="card-glare"></div>
           <div style="height: 100%; min-height: 300px;">
             <img src="assets/images/destinations/naran-saifulmalook.jpg" alt="Authentic Lake Saif-ul-Malook" style="width: 100%; height: 100%; object-fit: cover;">
           </div>

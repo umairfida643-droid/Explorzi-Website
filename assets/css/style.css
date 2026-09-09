@@ -108,9 +108,21 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
-  transition: background-color 0.35s ease, color 0.35s ease;
   position: relative;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Smooth theme transition ONLY during manual toggle (prevents page-load flicker) */
+html.theme-in-transition,
+html.theme-in-transition *,
+html.theme-in-transition *::before,
+html.theme-in-transition *::after {
+  transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              fill 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition-delay: 0s !important;
 }
 
 /* Ambient glow accents */
@@ -807,12 +819,15 @@ img {
   line-height: 1.7;
 }
 
-/* --- Executive Card Architecture with Pure Luxury Light Sweep Reflection --- */
+/* --- Executive Card Architecture with Ultra-Luxury Specular Reflections --- */
 .card-3d-wrapper {
   position: relative;
 }
 
-.card-3d {
+.card-3d,
+.feature-card,
+.testimonial-card,
+.hero-showcase-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -820,35 +835,42 @@ img {
   box-shadow: var(--card-shadow);
   transition: border-color 0.35s ease, box-shadow 0.35s ease;
   position: relative;
+  isolation: isolate;
 }
 
-.card-3d:hover {
+.card-3d:hover,
+.feature-card:hover,
+.testimonial-card:hover,
+.hero-showcase-card:hover {
   box-shadow: var(--card-hover-shadow);
   border-color: var(--border-glow);
 }
 
-/* Luxury Light Reflection Sheen (Sweep Animation Across Entire Website Cards) */
+/* 1. Crystal Diamond Light Beam Sweep (Pure luxury reflection across all cards) */
 .card-3d::after,
 .hero-showcase-card::after,
 .feature-card::after,
 .testimonial-card::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: -160%;
-  width: 100%;
-  height: 100%;
+  top: -60%;
+  left: -130%;
+  width: 65%;
+  height: 220%;
   background: linear-gradient(
-    90deg,
+    115deg,
     transparent 0%,
     rgba(255, 255, 255, 0.0) 25%,
-    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.22) 46%,
+    rgba(255, 255, 255, 0.75) 50%,
+    rgba(255, 255, 255, 0.22) 54%,
     rgba(255, 255, 255, 0.0) 75%,
     transparent 100%
   );
-  transform: skewX(-25deg);
+  transform: rotate(24deg);
   pointer-events: none;
-  z-index: 25;
+  z-index: 15;
+  opacity: 0;
   transition: none;
 }
 
@@ -856,12 +878,56 @@ img {
 .hero-showcase-card:hover::after,
 .feature-card:hover::after,
 .testimonial-card:hover::after {
-  left: 180%;
-  transition: left 0.85s cubic-bezier(0.19, 1, 0.22, 1);
+  opacity: 1;
+  left: 220%;
+  transition: left 0.95s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
 }
 
+/* Light Mode Specular Reflection Tuning */
+[data-theme="light"] .card-3d::after,
+[data-theme="light"] .hero-showcase-card::after,
+[data-theme="light"] .feature-card::after,
+[data-theme="light"] .testimonial-card::after {
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.0) 20%,
+    rgba(255, 255, 255, 0.45) 45%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(2, 132, 199, 0.2) 53%,
+    rgba(255, 255, 255, 0.0) 75%,
+    transparent 100%
+  );
+}
+
+/* 2. Interactive Spotlight Surface Glare (Softly follows cursor, card stays rock-solid) */
 .card-glare {
-  display: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    450px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 65%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 10;
+  border-radius: inherit;
+}
+
+[data-theme="light"] .card-glare {
+  background: radial-gradient(
+    450px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(2, 132, 199, 0.08) 0%,
+    transparent 65%
+  );
+}
+
+.card-3d:hover .card-glare,
+.hero-showcase-card:hover .card-glare,
+.feature-card:hover .card-glare {
+  opacity: 1;
 }
 
 .tour-card-image-wrap {
@@ -1570,4 +1636,279 @@ img {
   .stats-grid { grid-template-columns: 1fr; }
   .calculator-card { padding: 22px; }
   .whatsapp-chip { display: none; }
+}
+
+
+/* ==========================================================================
+   HERO 3D ANIMATION & SPATIAL HUD SYSTEM
+   ========================================================================== */
+
+/* 1. Hero Left 3D Live Status Pill */
+.hero-status-badge-3d {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  margin-bottom: 22px;
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.live-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  position: relative;
+  box-shadow: 0 0 10px #10b981;
+}
+
+.live-pulse-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid #10b981;
+  animation: liveRadarPulse 2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+@keyframes liveRadarPulse {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.badge-text-primary {
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-main);
+}
+
+.badge-separator {
+  color: var(--text-light);
+  font-weight: 300;
+}
+
+.badge-text-accent {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* 2. Hero Right 3D Spatial Presentation */
+.hero-showcase-wrapper {
+  position: relative;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 3D Celestial Compass & Orbit Rings behind card */
+.hero-3d-compass-ring {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border: 1.5px dashed rgba(56, 189, 248, 0.22);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  transform: rotateX(60deg) rotateZ(0deg);
+  animation: rotate3DCompass 36s linear infinite;
+}
+
+.hero-3d-compass-ring::before {
+  content: '';
+  position: absolute;
+  inset: 40px;
+  border: 1px solid rgba(251, 191, 36, 0.18);
+  border-radius: 50%;
+  animation: rotate3DCompassRev 22s linear infinite;
+}
+
+.hero-3d-compass-ring::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 16px var(--accent-gold);
+}
+
+@keyframes rotate3DCompass {
+  0% { transform: rotateX(60deg) rotateZ(0deg); }
+  100% { transform: rotateX(60deg) rotateZ(360deg); }
+}
+
+@keyframes rotate3DCompassRev {
+  0% { transform: rotateZ(360deg); }
+  100% { transform: rotateZ(0deg); }
+}
+
+/* Ambient Radial 3D Glow Orb */
+.hero-3d-glow-orb {
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, rgba(251, 191, 36, 0.08) 50%, transparent 70%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 2;
+  animation: pulseGlowOrb 8s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlowOrb {
+  0% { transform: scale(0.9) translate3d(0, 0, 0); opacity: 0.6; }
+  100% { transform: scale(1.15) translate3d(15px, -15px, 20px); opacity: 0.9; }
+}
+
+/* 3. Hero Showcase Card 3D Depth */
+.hero-showcase-card {
+  position: relative;
+  z-index: 5;
+  transform: rotateY(-5deg) rotateX(3deg);
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease, border-color 0.35s ease;
+  width: 100%;
+}
+
+.hero-showcase-card:hover {
+  transform: rotateY(0deg) rotateX(0deg);
+}
+
+/* 4. Floating 3D Spatial HUD Badges */
+.hero-3d-float-badge {
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border-color);
+  backdrop-filter: blur(16px);
+  pointer-events: auto;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.hero-3d-float-badge:hover {
+  border-color: var(--primary);
+  transform: scale(1.05) translateZ(60px) !important;
+}
+
+.badge-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: rgba(2, 132, 199, 0.14);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.badge-icon-wrap.gold {
+  background: rgba(251, 191, 36, 0.14);
+  color: var(--accent-gold);
+}
+
+.badge-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge-content .badge-sub {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.badge-content .badge-main {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--text-main);
+  white-space: nowrap;
+}
+
+/* Specific Badge Placements & 3D Float Animations */
+.hero-3d-float-badge.badge-flight {
+  top: -16px;
+  left: -22px;
+  animation: heroFloat3D 6s ease-in-out infinite alternate;
+}
+
+.hero-3d-float-badge.badge-guarantee {
+  bottom: 24px;
+  right: -24px;
+  animation: heroFloat3DReverse 7s ease-in-out infinite alternate;
+}
+
+@keyframes heroFloat3D {
+  0% { transform: translateY(0px) translateZ(40px) rotate(-1deg); }
+  50% { transform: translateY(-8px) translateZ(48px) rotate(1deg); }
+  100% { transform: translateY(4px) translateZ(36px) rotate(-0.5deg); }
+}
+
+@keyframes heroFloat3DReverse {
+  0% { transform: translateY(0px) translateZ(50px) rotate(1deg); }
+  50% { transform: translateY(10px) translateZ(42px) rotate(-1deg); }
+  100% { transform: translateY(-4px) translateZ(54px) rotate(0.5deg); }
+}
+
+/* Mobile & Tablet Adjustments for 3D Elements */
+@media (max-width: 991px) {
+  .hero-3d-compass-ring,
+  .hero-3d-glow-orb {
+    display: none;
+  }
+  
+  .hero-showcase-card {
+    transform: none !important;
+  }
+  
+  .hero-3d-float-badge.badge-flight {
+    top: 10px;
+    left: 10px;
+    animation: none;
+  }
+  
+  .hero-3d-float-badge.badge-guarantee {
+    bottom: 10px;
+    right: 10px;
+    animation: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-3d-float-badge {
+    padding: 6px 12px;
+    gap: 8px;
+  }
+  
+  .badge-icon-wrap {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .badge-content .badge-main {
+    font-size: 0.74rem;
+  }
 }

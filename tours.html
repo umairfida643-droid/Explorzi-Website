@@ -2,6 +2,17 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('explorzi-theme');
+        var theme = saved ? saved : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Curated Expeditions - Explorzi.pk | TRAVEL with AM</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -108,6 +119,7 @@
         <!-- 1. Skardu By Air -->
         <div class="card-3d-wrapper tour-card-item" data-category="by-air skardu honeymoon">
           <div class="card-3d">
+            <div class="card-glare"></div>
             <div class="tour-card-image-wrap">
               <img src="assets/images/destinations/skardu-shangrila.jpg" alt="Shangrila Resort Skardu" class="tour-card-img">
               <span class="tour-category-tag">By Air Escape</span>
@@ -142,6 +154,7 @@
         <!-- 2. Hunza & Passu Cones -->
         <div class="card-3d-wrapper tour-card-item" data-category="group hunza">
           <div class="card-3d">
+            <div class="card-glare"></div>
             <div class="tour-card-image-wrap">
               <img src="assets/images/destinations/hunza-passu.jpg" alt="Passu Cones Hunza Valley" class="tour-card-img">
               <span class="tour-category-tag">Group Adventure</span>
@@ -176,6 +189,7 @@
         <!-- 3. Neelum Valley Kashmir -->
         <div class="card-3d-wrapper tour-card-item" data-category="group kashmir honeymoon">
           <div class="card-3d">
+            <div class="card-glare"></div>
             <div class="tour-card-image-wrap">
               <img src="assets/images/destinations/neelum-valley.jpg" alt="Neelum Valley Riverbank Azad Kashmir" class="tour-card-img">
               <span class="tour-category-tag">Weekend Special</span>
@@ -210,6 +224,7 @@
         <!-- 4. Swat, Kalam & Malam Jabba -->
         <div class="card-3d-wrapper tour-card-item" data-category="group kpk">
           <div class="card-3d">
+            <div class="card-glare"></div>
             <div class="tour-card-image-wrap">
               <img src="assets/images/destinations/malam-jabba.jpg" alt="Malam Jabba Ski Resort Swat" class="tour-card-img">
               <span class="tour-category-tag">Group Tour</span>
@@ -244,6 +259,7 @@
         <!-- 5. Fairy Meadows & Nanga Parbat -->
         <div class="card-3d-wrapper tour-card-item" data-category="group skardu">
           <div class="card-3d">
+            <div class="card-glare"></div>
             <div class="tour-card-image-wrap">
               <img src="assets/images/destinations/fairy-meadows.jpg" alt="Nanga Parbat North Face from Fairy Meadows" class="tour-card-img">
               <span class="tour-category-tag">Adventure Trek</span>
@@ -278,6 +294,7 @@
         <!-- 6. Luxury Honeymoon Private Tour -->
         <div class="card-3d-wrapper tour-card-item" data-category="honeymoon skardu hunza">
           <div class="card-3d">
+            <div class="card-glare"></div>
             <div class="tour-card-image-wrap">
               <img src="assets/images/destinations/attabad-lake.jpg" alt="Turquoise Attabad Lake Hunza" class="tour-card-img">
               <span class="tour-category-tag">Private Honeymoon</span>
